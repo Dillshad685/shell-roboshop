@@ -23,7 +23,7 @@ do
      aws route53 change-resource-record-sets \
    --hosted-zone-id $Zone_ID \
    --change-batch '
-    {
+   {
      "Comment": "Updating record set"
      ,"Changes": [{
        "Action"              : "UPSERT"  #updates existing record
