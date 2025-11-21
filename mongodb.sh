@@ -40,6 +40,6 @@ VALIDATE $? "Adding mongorepo"
 dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $? "INSTALLING mongoDB"
 
-systemctl enable mongodb
-systemctl start mongodb
+systemctl enable mongod
+systemctl start mongod
 
