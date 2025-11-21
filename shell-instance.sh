@@ -26,9 +26,9 @@ do
     {
      "Comment": "Updating record set"
      ,"Changes": [{
-       "Action"              : "UPSERT"
+       "Action"              : "UPSERT"  #updates existing record
        ,"ResourceRecordSet"  : {
-         "Name"              : "'$RECORD_NAME'"
+         "Name"              : "'$RECORD_NAME'" 
          ,"Type"             : "A"
          ,"TTL"              : 1
          ,"ResourceRecords"  : [{
