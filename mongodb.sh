@@ -34,10 +34,10 @@ VALIDATE(){ #function receives input as args
   fi
 }
 
-cp mongodb.repo /etc/yum.repos.d/mongo.repo
+cp mongodb.repo /etc/yum.repos.d/mongodb.repo
 VALIDATE $? "Adding mongorepo"
 
-dnf install mongodb.org -y &>>$LOG_FILE
+dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $? "INSTALLING mongoDB"
 
 systemctl enable mongodb
