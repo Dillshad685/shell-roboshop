@@ -38,9 +38,9 @@ VALIDATE(){ #function receives input as args
 cp mongodb.repo /etc/yum.repos.d/mongodb.repo
 VALIDATE $? "Adding mongorepo"
 ############nodejs#####################
-dnf disable nodejs -y &>>$LOG_FILE
+dnf module disable nodejs -y &>>$LOG_FILE
 VALIDATE $? "disable nodejs"
-systemctl enable nodejs:20 -y &>>$LOG_FILE
+dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "Enabling nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "install nodejs"
