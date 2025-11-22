@@ -46,43 +46,43 @@ dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "install nodejs"
 
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-validate $? "system user created"
+VALIDATE $? "system user created"
 mkdir /app
-validate $? "app directory created"
+VALIDATE $? "app directory created"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
-validate $? "copy data to temp"
+VALIDATE $? "copy data to temp"
 cd /app 
-validate $? "changed directory to app"
+VALIDATE $? "changed directory to app"
 unzip /tmp/catalogue.zip
-validate $? "unzipped from temp directory to app"
+VALIDATE $? "unzipped from temp directory to app"
 cd /app 
-validate $? "changed directory to app"
+VALIDATE $? "changed directory to app"
 npm install
-validate $? "installed dependencies" 
+VALIDATE $? "installed dependencies" 
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
-validate $? "copied to enable systemuer"
+VALIDATE $? "copied to enable systemuer"
 
 systemctl daemon-reload
-validate $? "reloaded catalogue" 
+VALIDATE $? "reloaded catalogue" 
 systemctl enable catalogue 
-validate $? "enabled catalogue" 
+VALIDATE $? "enabled catalogue" 
 
 systemctl start catalogue
-validate $? "started catalogue" 
+VALIDATE $? "started catalogue" 
 
 cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo
-validate $? "adding mongodb client" 
+VALIDATE $? "adding mongodb client" 
 
 dnf install mongodb-mongosh -y
-validate $? "installed mongodb" 
+VALIDATE $? "installed mongodb" 
 
 mongosh --host $MONGODB_HOST </app/db/master-data.js
-validate $? "Load catalogue products"
+VALIDATE $? "Load catalogue products"
 
 systemctl restart catalogue
-validate $? "restarted catalogue"
+VALIDATE $? "restarted catalogue"
 
 
 
