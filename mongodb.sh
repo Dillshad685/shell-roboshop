@@ -45,3 +45,10 @@ VALIDATE $? "Enabling mongoDB"
 systemctl start mongod
 VALIDATE $? "starting mongoDB"
 
+
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+VALIDATE $? "allowing all ports"
+
+systemctl restart mongod
+VALIDATE $? "restarting mongoDB"
+
