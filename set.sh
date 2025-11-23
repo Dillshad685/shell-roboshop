@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
-trap 'echo"There is an error at $LINE_NO,command: $BASH_COMMAND"' ERR
+trap 'echo "There is an error at $LINE_NO,command: $BASH_COMMAND"' ERR
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -32,11 +32,11 @@ fi
 
 ############nodejs#####################
 dnf module disable nodejs -y &>>$LOG_FILE
-VALIDATE $? "disable nodejs"
+
 dnf module enable nodejs:20 -y &>>$LOG_FILE
-VALIDATE $? "Enabling nodejs"
+
 dnf install nodejs -y &>>$LOG_FILE
-VALIDATE $? "install nodejs"
+
 echo"installed nodejs"
 
 id roboshop &>>$LOG_FILE 
