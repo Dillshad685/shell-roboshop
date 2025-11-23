@@ -15,6 +15,7 @@ SCRIPT_DIR=$PWD
 mkdir -p $LOGS_FOLDER
 echo "$LOG_FILE"
 echo "script execution start time: $(date)" | tee -a $LOG_FILE    #appends the output to the logfile
+START_TIME=$(date +%s)
 
 USERID=$(id -u)    
 
@@ -40,11 +41,18 @@ dnf module disable redis -y
 VALIDATE $? "disable redis"
 dnf module enable redis:7 -y &>>$LOG_FILE
 VALIDATE $? "enable redis"
+dnf install redis -y &>>$LOG_FILE
+VALIDATE $? "installing redis"
 
-sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
+
+sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf &>>$LOG_FILE
 VALIDATE $? "allow all ports"
 
-systemctl enable redis 
+systemctl enable redis &>>$LOG_FILE
 VALIDATE $? "enabled redis"
-systemctl start redis 
+systemctl start redis &>>$LOG_FILE
 VALIDATE $? "started redis"
+
+END_TIME=$(date +%s)
+TOTAL_TIME=$(( $END_TIME - $START_TIME ))
+echo -e "Script executed in: $Y $TOTAL_TIME Seconds $N"
