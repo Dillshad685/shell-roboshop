@@ -37,7 +37,7 @@ dnf module enable nodejs:20 -y &>>$LOG_FILE
 
 dnf install nodejs -y &>>$LOG_FILE
 
-echo"installed nodejs"
+echo "installed nodejs"
 
 id roboshop &>>$LOG_FILE 
 if [ $? -ne 0 ]; then
