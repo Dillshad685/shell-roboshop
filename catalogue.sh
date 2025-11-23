@@ -59,7 +59,7 @@ curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue
 VALIDATE $? "copy data to temp"
 
 rm -rf /app/* &>>$LOG_FILE 
-VALIDATE $? " removing existing CODE" 
+VALIDATE $? "removing existing CODE" 
 
 cd /app  &>>$LOG_FILE
 VALIDATE $? "changed directory to app"
@@ -91,8 +91,13 @@ VALIDATE $? "adding mongodb client"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installed mongodb" 
 
-mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "Load catalogue products"
+INDEX=$(mongosh mongodb.dillshad.space --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+if [ $INDEX -ne 0 ]; then
+   mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE"
+   VALIDATE $? "Load catalogue products"
+else
+   echo -e "dbs are present .. $Y SKIPPING $N"
+fi
 
 systemctl restart catalogue &>>$LOG_FILE
 VALIDATE $? "restarted catalogue"
