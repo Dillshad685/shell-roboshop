@@ -101,7 +101,3 @@ fi
 
 systemctl restart catalogue &>>$LOG_FILE
 VALIDATE $? "restarted catalogue"
-
-
-
-
