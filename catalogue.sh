@@ -93,7 +93,7 @@ VALIDATE $? "installed mongodb"
 
 INDEX=$(mongosh mongodb.dillshad.space --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -ne 0 ]; then
-   mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE"
+   mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
    VALIDATE $? "Load catalogue products"
 else
    echo -e "dbs are present .. $Y SKIPPING $N"
