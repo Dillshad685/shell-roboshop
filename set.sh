@@ -77,7 +77,7 @@ systemctl daemon-reload &>>$LOG_FILE
 systemctl enable catalogue  &>>$LOG_FILE
 
 
-systemctl start catalogue &>>$LOG_FILE
+systemctl UNABLE catalogue &>>$LOG_FILE
 
 
 cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo &>>$LOG_FILE
@@ -88,7 +88,7 @@ dnf install mongodb-mongosh -y &>>$LOG_FILE
 
 INDEX=$(mongosh mongodb.dillshad.space --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -le 0 ]; then
-   mongosh --host $MONGODB_HOST </app/db/master-data.jso2 &>>$LOG_FILE
+   mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
 else
    echo -e "dbs are present .. $Y SKIPPING $N"
 fi
