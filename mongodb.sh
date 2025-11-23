@@ -47,7 +47,7 @@ VALIDATE $? "starting mongoDB"
 
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-VALIDATE $? "allowing all ports"
+VALIDATE $? "allowing all ports" #using sed we can insert in the file 
 
 systemctl restart mongod
 VALIDATE $? "restarting mongoDB"

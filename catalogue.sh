@@ -10,7 +10,7 @@ echo "$0"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1) #$0 refers to the file which is running currently in
 #the server which is mongodb.sh removes .sh and adds .log
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"  #/var/log/shell-roboshop/mongodb.log
-MONGODB_HOST=mongodb.dillshad.space
+MONGODB_HOST="mongodb.dillshad.space"
 SCRIPT_DIR=$PWD
 mkdir -p $LOGS_FOLDER
 echo "$LOG_FILE"
@@ -43,19 +43,33 @@ VALIDATE $? "Enabling nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "install nodejs"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
-VALIDATE $? "system user created"
-mkdir /app
+id roboshop &>>$LOG_FILE 
+if [ $? -ne 0 ]; then
+
+   useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+   VALIDATE $? "system user created"
+else
+   echo -e "user already exisiting .. $Y SKIPPING $N"
+fi
+
+mkdir -p /app &>>$LOG_FILE 
 VALIDATE $? "app directory created"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
 VALIDATE $? "copy data to temp"
+
+rm -rf /app/* &>>$LOG_FILE 
+VALIDATE $? " removing existing CODE" 
+
 cd /app  &>>$LOG_FILE
 VALIDATE $? "changed directory to app"
+
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 VALIDATE $? "unzipped from temp directory to app"
+
 cd /app  &>>$LOG_FILE
 VALIDATE $? "changed directory to app"
+
 npm install &>>$LOG_FILE
 VALIDATE $? "installed dependencies" 
 
@@ -64,6 +78,7 @@ VALIDATE $? "copied to enable systemuer"
 
 systemctl daemon-reload &>>$LOG_FILE
 VALIDATE $? "reloaded catalogue" 
+
 systemctl enable catalogue  &>>$LOG_FILE
 VALIDATE $? "enabled catalogue" 
 
