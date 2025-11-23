@@ -37,7 +37,7 @@ VALIDATE(){ #function receives input as args
 }
 
 ###### redis ########
-dnf module disable redis -y
+dnf module disable redis -y &>>$LOG_FILE
 VALIDATE $? "disable redis"
 dnf module enable redis:7 -y &>>$LOG_FILE
 VALIDATE $? "enable redis"
