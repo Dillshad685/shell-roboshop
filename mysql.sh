@@ -9,7 +9,7 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 echo "$0"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1) #$0 refers to the file which is running currently in
 #the server which is mongodb.sh removes .sh and adds .log
-LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"  #/var/log/shell-roboshop/mongodb.log
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"  #/var/log/shell-roboshop/
 SCRIPT_DIR=$PWD
 mkdir -p $LOGS_FOLDER
 echo "$LOG_FILE"
@@ -35,22 +35,18 @@ VALIDATE(){ #function receives input as args
   fi
 }
 
-###### redis ########
-dnf module disable redis -y &>>$LOG_FILE
-VALIDATE $? "disable redis"
-dnf module enable redis:7 -y &>>$LOG_FILE
-VALIDATE $? "enable redis"
-dnf install redis -y &>>$LOG_FILE
-VALIDATE $? "installing redis"
+###### mysql ########
+dnf install mysql-server -y &>>$LOG_FILE
+VALIDATE $? "install mysql"
+systemctl enable mysqld &>>$LOG_FILE
+VALIDATE $? "enable mysql"
+systemctl start mysqld  &>>$LOG_FILE
+VALIDATE $? "start mysql"
+
+mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
+VALIDATE $? "root pwd set"
 
 
-sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf &>>$LOG_FILE
-VALIDATE $? "allow all ports"
-
-systemctl enable redis &>>$LOG_FILE
-VALIDATE $? "enabled redis"
-systemctl start redis &>>$LOG_FILE
-VALIDATE $? "started redis"
 
 END_TIME=$(date +%s)
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
