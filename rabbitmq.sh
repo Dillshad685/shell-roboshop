@@ -42,9 +42,9 @@ VALIDATE $? "repo file created"
 ###### rabbitmq ########
 dnf install rabbitmq-server -y &>>$LOG_FILE
 VALIDATE $? "install rabbitmq"
-systemctl enable rabbitmq &>>$LOG_FILE
+systemctl enable rabbitmq-server &>>$LOG_FILE
 VALIDATE $? "enable rabbitmq-server"
-systemctl start rrabbitmq-server  &>>$LOG_FILE
+systemctl start rabbitmq-server  &>>$LOG_FILE
 VALIDATE $? "start rabbitmq"
 
 rabbitmqctl add_user roboshop roboshop123 &>>$LOG_FILE
