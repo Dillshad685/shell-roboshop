@@ -1,9 +1,9 @@
 #!/bin/bash
 
 R="\e[31m"
-G="\m[32m"
-Y="\m[33m"
-N="\m[0m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
 
 
 LOGS_FOLDER="/var/log/shell-roboshop"
@@ -43,8 +43,8 @@ VALIDATE $? "repo file created"
 dnf install rabbitmq-server -y &>>$LOG_FILE
 VALIDATE $? "install rabbitmq"
 systemctl enable rabbitmq &>>$LOG_FILE
-VALIDATE $? "enable rabbitmq"
-systemctl start rabbitmq  &>>$LOG_FILE
+VALIDATE $? "enable rabbitmq-server"
+systemctl start rrabbitmq-server  &>>$LOG_FILE
 VALIDATE $? "start rabbitmq"
 
 rabbitmqctl add_user roboshop roboshop123 &>>$LOG_FILE
