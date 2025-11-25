@@ -44,7 +44,7 @@ VALIDATE $? "install java"
 id roboshop &>>$LOG_FILE 
 if [ $? -ne 0 ]; then
 
-   uuseradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+   useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
    VALIDATE $? "system user created"
 else
    echo -e "user already exisiting .. $Y SKIPPING $N"
