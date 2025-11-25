@@ -9,8 +9,8 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 echo "$0"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1) #$0 refers to the file which is running currently in
 #the server which is mongodb.sh removes .sh and adds .log
-LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"  #/var/log/shell-roboshop/mongodb.log
 SCRIPT_DIR=$PWD
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"  #/var/log/shell-roboshop/mongodb.log
 mkdir -p $LOGS_FOLDER
 echo "$LOG_FILE"
 echo "script execution start time: $(date)" | tee -a $LOG_FILE    #appends the output to the logfile
@@ -55,7 +55,7 @@ VALIDATE $? "payment file created"
 cd /app &>>$LOG_FILE
 VALIDATE $? "moved to app directory"
 
-rm -rf /temp/* &>>$LOG_FILE
+rm -rf /app/* &>>$LOG_FILE
 VALIDATE $? "remove code"
 
 unzip /tmp/payment.zip &>>$LOG_FILE
@@ -65,14 +65,14 @@ pip3 install -r requirements.txt &>>$LOG_FILE
 VALIDATE $? "installed packages"
 
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>>$LOG_FILE
-VALIDATE $? "SYSTEM user created"
+VALIDATE $? "systemctl service enabled"
 
-system daemon-reload -y &>>$LOG_FILE
+systemctl daemon-reload &>>$LOG_FILE
 VALIDATE $? "PAYMENT reloaded"
 
-systemctl enable payment -y &>>$LOG_FILE
+systemctl enable payment &>>$LOG_FILE
 VALIDATE $? "ENABLED payment"
 
-systemctl start payment -y &>>$LOG_FILE
+systemctl start payment &>>$LOG_FILE
 VALIDATE $? "Started payment"
 
