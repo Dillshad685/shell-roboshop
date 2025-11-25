@@ -43,10 +43,10 @@ if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     VALIDATE $? "SYSTEMUSER created"
 else
-    echo"system user already created .. $Y SKIPPING $N"
+    echo -e "system user already created .. $Y SKIPPING $N"
 fi
 
-mkdir /app &>>$LOG_FILE
+mkdir -p /app &>>$LOG_FILE
 VALIDATE $? "app directory created"
 
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
