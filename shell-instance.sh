@@ -1,7 +1,7 @@
 #!/bin/bash
 
-AMI_ID="ami-09c813fb71547fc4f"  #we get from existing instance
-SG_ID="sg-00d0eb3bdf7ae9959" #same as above
+AMI_ID="ami-0220d79f3f480ecf5"  #we get from existing instance
+SG_ID="sg-0c30fff245cb18154" #same as above
 Zone_ID="Z0375645LTAC4FZXZR6K"
 Domain_name="dillshad.space"
 
